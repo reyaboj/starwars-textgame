@@ -66,6 +66,7 @@ The `FollowOwner` behavior allows reuse for other entities which might need such
 * Represents a dismantled `Droid` instance
 * Can be used via `Repair` affordance on a `Droid` that is immobile on the map
 * Restores the immobile droid to full health
+* Affords `Take` so that actors can pick it up
 #### Responsibilities: `FollowOwner`
 * Encapsulates the Droid's owner-following behavior
 * Serves as a helper for `Droid`'s `act` method
