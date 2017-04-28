@@ -51,7 +51,7 @@ Droids are to be added as a subclass of `SWActor`: class `Droid`. Each `Droid` s
 
 `Droid` classes shall have an overriden `takeDamage` method to trigger state to immobile once their health drops to zero. This state shall add the `Disassemble` affordance to `Droid`. The `Disassemble` affordance shall replace an immobile `Droid` on the map with a `DroidParts` instance.
 
-Immboile `Droid` classes shall have the `Repair` affordance added to them by `takeDamage`. `SWActor` instances with the `REPAIR` capability shall be allowed to restore such droids to normal health provided they are carrying a `DroidParts` instance.
+Immobile `Droid` classes shall have the `Repair` affordance added to them by `takeDamage`. `SWActor` instances with the `REPAIR` capability shall be allowed to restore such droids to normal health provided they are carrying a `DroidParts` instance.
 ### Design Justification
 `Drink` was kept as a common affordance for both `Droid` and `SWAction` instances to avoid duplicating the common "health replenish" logic. The added special condition for oil-can replenishing was considered a fair trade-off for the design. 
 #### Responsibilities: `Droid`
