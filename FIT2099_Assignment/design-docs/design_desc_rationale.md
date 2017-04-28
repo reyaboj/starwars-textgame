@@ -47,15 +47,13 @@ This is the simplest possible design in the design space: a no-brainer.
 ### Design Description
 Droids are to be added as a subclass of `SWActor`: class `Droid`. Each `Droid` shall be associated with an owning `SWActor`. `Droid` instances shall have a `Drink` affordance that allows repair via drinking oil cans. `Drink` affordance is generic for all actors and special-cased for `Droid` instances to allow oil-cans to never fully deplete.
 
-`Droid` classes use the `FollowOwner` behavior to follow their owning actor through the map. The `FollowOwner` behavior shall not include the badlands damage feature. The `Droid` instance's `act` method shall check the moved-to location and then call its own `takeDamage` method based on the result.
+`Droid` uses `tick` to follow its owning actor through the map. The method calls `takeDamage` when in the badlands.
 
 `Droid` classes shall have an overriden `takeDamage` method to trigger state to immobile once their health drops to zero. This state shall add the `Disassemble` affordance to `Droid`. The `Disassemble` affordance shall replace an immobile `Droid` on the map with a `DroidParts` instance.
 
 Immboile `Droid` classes shall have the `Repair` affordance added to them by `takeDamage`. `SWActor` instances with the `REPAIR` capability shall be allowed to restore such droids to normal health provided they are carrying a `DroidParts` instance.
 ### Design Justification
-`Drink` was kept as a common affordance for both `Droid` and `SWAction` instances to avoid duplicating the common "health replenish" logic. The added special condition for oil-can replenishing was considered a fair trade-off for the design.
-
-The `FollowOwner` behavior allows reuse for other entities which might need such behavior.
+`Drink` was kept as a common affordance for both `Droid` and `SWAction` instances to avoid duplicating the common "health replenish" logic. The added special condition for oil-can replenishing was considered a fair trade-off for the design. 
 #### Responsibilities: `Droid`
 * Represents a droid instance
 * Follows its owning actor using the `FollowOwner` behavior
@@ -67,9 +65,6 @@ The `FollowOwner` behavior allows reuse for other entities which might need such
 * Can be used via `Repair` affordance on a `Droid` that is immobile on the map
 * Restores the immobile droid to full health
 * Affords `Take` so that actors can pick it up
-#### Responsibilities: `FollowOwner`
-* Encapsulates the Droid's owner-following behavior
-* Serves as a helper for `Droid`'s `act` method
 
 ## Healing
 ### Design Description
