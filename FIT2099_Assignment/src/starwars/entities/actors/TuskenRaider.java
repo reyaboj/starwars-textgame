@@ -15,6 +15,11 @@ import starwars.entities.actors.behaviors.AttackNeighbours;
 
 public class TuskenRaider extends SWActor {
 
+	/**
+	 * Initial health for Tusken Raider.
+	 */
+	private static final int HEALTH = 200;
+	
 	private String name;
 
 	/**
@@ -23,7 +28,7 @@ public class TuskenRaider extends SWActor {
 	 * that they will move) and attack anything they can (if they can attack
 	 * something, they will).  They 
 	 * are all members of team TUSKEN, so their attempts to attack
-	 * other Tusken Raiders won't be effectual.
+	 * other Tusken Raiders won't be effectual. The initial health starts off at @{link HEALTH}.
 	 * 
 	 * @param hitpoints
 	 *            the number of hit points of this Tusken Raider. If this
@@ -38,7 +43,7 @@ public class TuskenRaider extends SWActor {
 	 * 
 	 */
 	public TuskenRaider(int hitpoints, String name, MessageRenderer m, SWWorld world) {
-		super(Team.TUSKEN, 50, m, world);
+		super(Team.TUSKEN, HEALTH, m, world); 
 		// TODO Auto-generated constructor stub
 		this.name = name;
 	}

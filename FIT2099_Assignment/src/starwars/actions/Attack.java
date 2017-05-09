@@ -6,6 +6,7 @@ import starwars.SWActionInterface;
 import starwars.SWActor;
 import starwars.SWAffordance;
 import starwars.SWEntityInterface;
+import starwars.entities.actors.TuskenRaider;
 
 /**
  * Command to attack entities.
@@ -130,11 +131,14 @@ public class Attack extends SWAffordance implements SWActionInterface {
 				} 
 			}
 			else { // attack with bare hands
-				target.takeDamage((a.getHitpoints()/20) + 1); // a bare-handed attack doesn't do much damage.
+				if(a instanceof TuskenRaider){
+					target.takeDamage((a.getHitpoints()/10) + 2); // a bare-handed attack doesn't do much damage.
+				}else{
+					target.takeDamage((a.getHitpoints()/20) + 1); // a bare-handed attack doesn't do much damage.
+				}
+				
 				a.takeDamage(2*energyForAttackWithWeapon); // actor uses energy. It's twice as tiring as using a weapon
 			}
-			
-			
 			
 			//After the attack
 			
