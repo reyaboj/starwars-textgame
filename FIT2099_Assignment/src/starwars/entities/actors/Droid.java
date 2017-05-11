@@ -70,11 +70,11 @@ public class Droid extends SWActor {
     private ActionInterface follow() {
         assert owner != null;
 
-        Direction moveDirection = null;
+        Direction moveDirection = null;  // to store which direction to move
         EntityManager<SWEntityInterface, SWLocation> em = world.getEntityManager();
         SWLocation loc = em.whereIs(this);
-        boolean found = false;
-        for (Direction d : Grid.CompassBearing.values()) {
+        boolean found = false;  // assume we don't know where owner is
+        for (Direction d : Grid.CompassBearing.values()) {  // look around us
             if (found)
                 break;
 
@@ -84,7 +84,7 @@ public class Droid extends SWActor {
             if (neighborObjs == null)  // FIXME: ugly hack because engine code is buggy; docs say never returns null
                 continue;
 
-            for (SWEntityInterface entity : neighborObjs) {
+            for (SWEntityInterface entity : neighborObjs) {  // check all entities at that location for owner
                 if (entity == owner) {
                     moveDirection = d;
                     found = true;
