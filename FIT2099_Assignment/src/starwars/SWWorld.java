@@ -129,6 +129,11 @@ public class SWWorld extends World {
 		C3P0 c3p0 = new C3P0(null, Team.NEUTRAL, 200, iface, this);
 		c3p0.setSymbol("C3");
 		entityManager.setLocation(c3p0, myGrid.getLocationByCoordinates(0,0));
+
+		// R2D2
+		R2D2 r2d2 = new R2D2(null, Team.NEUTRAL, 200, iface, this);
+		r2d2.setSymbol("R2");
+		entityManager.setLocation(r2d2, myGrid.getLocationByCoordinates(0, 7));
 		
 		// Beggar's Canyon 
 		for (int col = 3; col < 8; col++) {

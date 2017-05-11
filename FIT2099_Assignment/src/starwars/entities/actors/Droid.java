@@ -49,6 +49,16 @@ public class Droid extends SWActor {
      * @{link actDefault} method. If it is owned, it follows the owner.
      */
     public void act() {
+        if (isDead()) {
+            if (hasOwner()) {
+                say(getShortDescription() + " is no longer owned by " + getOwner().getShortDescription());
+                setOwner(null);
+            }
+
+            say(getShortDescription() + " is disabled at " +
+                    world.getEntityManager().whereIs(this).getShortDescription());
+        }
+
         if (hasOwner())
             scheduler.schedule(follow(), this, 1);
         else
@@ -57,7 +67,8 @@ public class Droid extends SWActor {
 
     /**
      * The droid's default behavior. By default it simply reports the position on the map. This can be overriden in
-     * subclasses to implement different defaults.
+     * subclasses to implement different defaults. This method will be triggered iff. the droid is not disabled
+     * (i.e. dead).
      */
     public void actDefault() {
         say(getShortDescription() + " is at " + world.getEntityManager().whereIs(this).getShortDescription());
