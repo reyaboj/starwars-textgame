@@ -8,6 +8,7 @@ import starwars.entities.actors.Droid;
 
 /**
  * Affordance that allows droids to be owned.
+ * @author Md Istiaque Al Jobayer
  */
 public class OwnDroid extends SWAffordance {
 

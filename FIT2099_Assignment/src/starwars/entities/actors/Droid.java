@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Droids which have a default behavior designated at creation time and if they have an owner, they follow that owner.
+ * @author Md Istiaque Al Jobayer
  */
 public class Droid extends SWActor {
     /** The owning actor */
