@@ -52,6 +52,6 @@ public class OwnDroid extends SWAffordance {
      */
     @Override
     public boolean canDo(SWActor a) {
-        return !((Droid)target).hasOwner();
+        return !((Droid)target).hasOwner() && !((Droid)target).isDead();
     }
 }

@@ -133,6 +133,14 @@ public abstract class SWActor extends Actor<SWActionInterface> implements SWEnti
 	}
 
 	/**
+	 * Set the current hitpoints for this actor.
+	 */
+	public void setHitpoints(int newHitpoints) {
+		assert newHitpoints >=0 : "Cannot have negative hitpoints";
+		hitpoints = newHitpoints;
+	}
+
+	/**
 	 * Returns an ArrayList containing this Actor's available Actions, including the Affordances of items
 	 * that the Actor is holding.
 	 * 
@@ -282,9 +290,4 @@ public abstract class SWActor extends Actor<SWActionInterface> implements SWEnti
 		// TODO: This assumes that the only actions are the Move actions. This will clobber any others. Needs to be fixed.
 		/* Actually, that's not the case: all non-movement actions are transferred to newActions before the movements are transferred. --ram */
 	}
-
-
-	
-	
-	
 }

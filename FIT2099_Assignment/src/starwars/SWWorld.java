@@ -118,11 +118,12 @@ public class SWWorld extends World {
 		luke.setShortDescription("Luke");
 		entityManager.setLocation(luke, loc);
 		luke.resetMoveCommands(loc);
+		luke.setItemCarried(new DroidParts(iface));
 
 		// Generic droid
 		Droid droid = new Droid(null, Team.NEUTRAL, 200, iface, this);
 		droid.setSymbol("D");
-		droid.setShortDescription("Droid");
+		droid.setShortDescription("DOX");
 		entityManager.setLocation(droid, loc);
 
 		// C3P0 Droid
@@ -132,6 +133,7 @@ public class SWWorld extends World {
 
 		// R2D2
 		R2D2 r2d2 = new R2D2(null, Team.NEUTRAL, 200, iface, this);
+		r2d2.setHitpoints(0);
 		r2d2.setSymbol("R2");
 		entityManager.setLocation(r2d2, myGrid.getLocationByCoordinates(0, 7));
 		

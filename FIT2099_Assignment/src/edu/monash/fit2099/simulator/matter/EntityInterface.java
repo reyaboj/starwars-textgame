@@ -80,5 +80,4 @@ public interface EntityInterface {
 	 * @return an array of references to this <code>Entity</code>'s <code>Affordances</code>
 	 */
 	public abstract Affordance[] getAffordances();
-
 }
