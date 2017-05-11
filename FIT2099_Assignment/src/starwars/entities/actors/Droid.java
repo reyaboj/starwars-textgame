@@ -7,6 +7,7 @@ import edu.monash.fit2099.simulator.space.Direction;
 import edu.monash.fit2099.simulator.space.Location;
 import edu.monash.fit2099.simulator.userInterface.MessageRenderer;
 import starwars.*;
+import starwars.actions.Disassemble;
 import starwars.actions.Move;
 import starwars.actions.OwnDroid;
 import starwars.actions.Repair;
@@ -35,6 +36,7 @@ public class Droid extends SWActor {
         setOwner(owner);
         addAffordance(new OwnDroid(this, m));
         addAffordance(new Repair(this, m));
+        addAffordance(new Disassemble(this, m));
     }
 
     /**

@@ -2,6 +2,7 @@ package starwars.entities;
 
 import edu.monash.fit2099.simulator.userInterface.MessageRenderer;
 import starwars.SWEntity;
+import starwars.actions.Take;
 
 /**
  * Disassembled droid.
@@ -15,5 +16,7 @@ public class DroidParts extends SWEntity {
         super(m);
         this.shortDescription = "Droid parts";
         this.longDescription = "Droid parts which can repair disabled droids";
+        setSymbol("DP");
+        addAffordance(new Take(this, m));
     }
 }

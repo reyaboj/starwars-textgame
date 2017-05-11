@@ -118,11 +118,11 @@ public class SWWorld extends World {
 		luke.setShortDescription("Luke");
 		entityManager.setLocation(luke, loc);
 		luke.resetMoveCommands(loc);
-		luke.setItemCarried(new DroidParts(iface));
 
 		// Generic droid
 		Droid droid = new Droid(null, Team.NEUTRAL, 200, iface, this);
-		droid.setSymbol("D");
+		droid.setHitpoints(0);
+		droid.setSymbol("DX");
 		droid.setShortDescription("DOX");
 		entityManager.setLocation(droid, loc);
 
