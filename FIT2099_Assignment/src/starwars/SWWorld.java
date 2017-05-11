@@ -120,9 +120,9 @@ public class SWWorld extends World {
 		luke.resetMoveCommands(loc);
 
 		// Luke's drone
-		Droid droid = new Droid(luke, Team.NEUTRAL, 200, iface, this);
+		Droid droid = new Droid(null, Team.NEUTRAL, 200, iface, this);
 		droid.setSymbol("D");
-		droid.setShortDescription("Luke's Droid");
+		droid.setShortDescription("Droid");
 		entityManager.setLocation(droid, loc);
 		
 		// Beggar's Canyon 

@@ -8,6 +8,7 @@ import edu.monash.fit2099.simulator.space.Location;
 import edu.monash.fit2099.simulator.userInterface.MessageRenderer;
 import starwars.*;
 import starwars.actions.Move;
+import starwars.actions.OwnDroid;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class Droid extends SWActor {
     public Droid(SWActor owner, Team team, int hitpoints, MessageRenderer m, SWWorld world) {
         super(team, hitpoints, m, world);
         setOwner(owner);
+        addAffordance(new OwnDroid(this, m));
     }
 
     /**
