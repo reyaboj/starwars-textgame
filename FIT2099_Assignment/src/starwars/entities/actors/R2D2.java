@@ -1,14 +1,19 @@
 package starwars.entities.actors;
 
-import edu.monash.fit2099.gridworld.Grid;
 import edu.monash.fit2099.gridworld.Grid.CompassBearing;
+import edu.monash.fit2099.simulator.matter.EntityManager;
 import edu.monash.fit2099.simulator.space.Direction;
 import edu.monash.fit2099.simulator.userInterface.MessageRenderer;
-import starwars.SWActor;
-import starwars.SWWorld;
-import starwars.Team;
+import starwars.*;
+import starwars.actions.Disassemble;
 import starwars.actions.Move;
+import starwars.actions.Repair;
+import starwars.actions.Take;
+import starwars.entities.DroidParts;
 import starwars.entities.actors.behaviors.Patrol;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * R2D2 droid.
@@ -17,6 +22,15 @@ import starwars.entities.actors.behaviors.Patrol;
 public class R2D2 extends Droid {
     /**The patrol route*/
     private Patrol patrol;
+
+    /**Possible droid states*/
+    private enum R2State {
+        PATROL,
+        PICK_DISASSEMBLED
+    }
+
+    /**Current state*/
+    private R2State state;
 
     /**
      * Create R2D2 droid.
@@ -29,6 +43,7 @@ public class R2D2 extends Droid {
      */
     public R2D2(SWActor owner, Team team, int hitpoints, MessageRenderer m, SWWorld world) {
         super(owner, team, hitpoints, m, world);
+        state = R2State.PATROL;
         Direction[] patrolPath = {
                 CompassBearing.EAST, CompassBearing.EAST, CompassBearing.EAST,
                 CompassBearing.EAST, CompassBearing.EAST,
@@ -48,7 +63,39 @@ public class R2D2 extends Droid {
      */
     @Override
     public void actDefault() {
-        scheduler.schedule(new Move(patrol.getNext(), messageRenderer, world), this, 1);
+        EntityManager<SWEntityInterface, SWLocation> em = world.getEntityManager();
+        List<SWEntityInterface> entities = em.contents(em.whereIs(this));
+
+        switch (state) {
+            case PICK_DISASSEMBLED:
+                Optional<SWEntityInterface> part = entities.stream()
+                        .filter(e -> e instanceof DroidParts).findFirst();
+
+                if (part.isPresent()) {
+                    scheduler.schedule(new Take(part.get(), messageRenderer), this, 1);
+                }
+
+                state = R2State.PATROL; // resume patrolling
+                break;
+
+            case PATROL:
+                // look for disabled droids
+                Optional<SWEntityInterface> disabledDroid = entities.stream()
+                        .filter(e -> e instanceof Droid && ((Droid)e).isDead()).findFirst();
+
+                // if carrying parts, repair; otherwise dismantle
+                if (getItemCarried() != null && disabledDroid.isPresent()) {
+                    scheduler.schedule(new Repair(disabledDroid.get(), messageRenderer), this, 1);
+                } else if (getItemCarried() == null && disabledDroid.isPresent()) {
+                    scheduler.schedule(new Disassemble(disabledDroid.get(), messageRenderer), this, 1);
+                    state = R2State.PICK_DISASSEMBLED;
+                } else {
+                    scheduler.schedule(new Move(patrol.getNext(), messageRenderer, world), this, 1);
+                }
+                break;
+
+            default: assert false : "should never reach here";
+        }
     }
 
     /**

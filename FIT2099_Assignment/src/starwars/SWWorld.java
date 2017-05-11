@@ -7,7 +7,10 @@ import edu.monash.fit2099.simulator.space.Location;
 import edu.monash.fit2099.simulator.space.World;
 import edu.monash.fit2099.simulator.userInterface.MessageRenderer;
 import starwars.actions.Take;
-import starwars.entities.*;
+import starwars.entities.Blaster;
+import starwars.entities.Canteen;
+import starwars.entities.LightSaber;
+import starwars.entities.Reservoir;
 import starwars.entities.actors.*;
 
 /**
@@ -119,12 +122,24 @@ public class SWWorld extends World {
 		entityManager.setLocation(luke, loc);
 		luke.resetMoveCommands(loc);
 
-		// Generic droid
+		// Generic droids
 		Droid droid = new Droid(null, Team.NEUTRAL, 200, iface, this);
 		droid.setHitpoints(0);
 		droid.setSymbol("DX");
-		droid.setShortDescription("DOX");
-		entityManager.setLocation(droid, loc);
+		droid.setShortDescription("DX");
+		entityManager.setLocation(droid, myGrid.getLocationByCoordinates(3,7));
+
+		Droid d2 = new Droid(null, Team.NEUTRAL, 100, iface, this);
+		d2.setHitpoints(0);
+		d2.setSymbol("DD");
+		d2.setShortDescription("DD");
+		entityManager.setLocation(d2, myGrid.getLocationByCoordinates(1, 7));
+
+		Droid d3 = new Droid(null, Team.NEUTRAL, 100, iface, this);
+		d3.setHitpoints(0);
+		d3.setSymbol("D3");
+		d3.setShortDescription("D3");
+		entityManager.setLocation(d3, myGrid.getLocationByCoordinates(1, 8));
 
 		// C3P0 Droid
 		C3P0 c3p0 = new C3P0(null, Team.NEUTRAL, 200, iface, this);
@@ -133,7 +148,6 @@ public class SWWorld extends World {
 
 		// R2D2
 		R2D2 r2d2 = new R2D2(null, Team.NEUTRAL, 200, iface, this);
-		r2d2.setHitpoints(0);
 		r2d2.setSymbol("R2");
 		entityManager.setLocation(r2d2, myGrid.getLocationByCoordinates(0, 7));
 		
