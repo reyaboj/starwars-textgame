@@ -55,6 +55,16 @@ public abstract class SWActor extends Actor<SWActionInterface> implements SWEnti
 	
 	/**A set of <code>Capabilities</code> of this <code>SWActor</code>*/
 	private HashSet<Capability> capabilities;
+
+	/**Force levels*/
+	public enum Force {
+		NONE, WEAK, UNTRAINED, TRAINED
+	}
+
+	/**The actor's level of force*/
+	private Force forceLevel;
+
+	/**  */
 	
 	/**
 	 * Constructor for the <code>SWActor</code>.
@@ -85,6 +95,7 @@ public abstract class SWActor extends Actor<SWActionInterface> implements SWEnti
 		this.MAX_HITPOINTS = hitpoints;
 		this.world = world;
 		this.symbol = "@";
+		this.forceLevel = Force.NONE;
 		
 		//SWActors are given the Attack affordance hence they can be attacked
 		SWAffordance attack = new Attack(this, m);
@@ -141,6 +152,21 @@ public abstract class SWActor extends Actor<SWActionInterface> implements SWEnti
 			hitpoints = getMaxHitpoints();
 		else
 			hitpoints = newHitpoints;
+	}
+
+	/**
+	 * Get the actor's force level.
+	 * @return the force level
+	 */
+	public Force getForceLevel() {
+		return forceLevel;
+	}
+
+	/**
+	 * Set the actor's force level.
+	 * */
+	public void setForceLevel(Force forceLevel) {
+		this.forceLevel = forceLevel;
 	}
 
 	/**

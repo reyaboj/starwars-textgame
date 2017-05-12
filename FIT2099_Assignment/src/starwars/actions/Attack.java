@@ -6,6 +6,7 @@ import starwars.SWActionInterface;
 import starwars.SWActor;
 import starwars.SWAffordance;
 import starwars.SWEntityInterface;
+import starwars.entities.LightSaber;
 import starwars.entities.actors.TuskenRaider;
 
 /**
@@ -117,9 +118,23 @@ public class Attack extends SWAffordance implements SWActionInterface {
 			SWEntityInterface itemCarried = a.getItemCarried();
 			if (itemCarried != null) {//if the actor is carrying an item 
 				if (itemCarried.hasCapability(Capability.WEAPON)) {
-					target.takeDamage(itemCarried.getHitpoints() + 1); // blunt weapon won't do much, but it will still do some damage
-					itemCarried.takeDamage(1); // weapon gets blunt
-					a.takeDamage(energyForAttackWithWeapon); // actor uses energy to attack
+					if (itemCarried instanceof LightSaber) {
+						if (a.getForceLevel() == SWActor.Force.TRAINED) {
+							target.takeDamage(itemCarried.getHitpoints() + 1); // blunt weapon won't do much, but it will still do some damage
+							itemCarried.takeDamage(1); // weapon gets blunt
+							a.takeDamage(energyForAttackWithWeapon); // actor uses energy to attack
+						} else {
+							// not force user
+							target.takeDamage((a.getHitpoints()/20)+1);
+							a.takeDamage(2*energyForAttackWithWeapon);
+						}
+					} else {
+						// not a lightsaber
+						target.takeDamage(itemCarried.getHitpoints() + 1); // blunt weapon won't do much, but it will still do some damage
+						itemCarried.takeDamage(1); // weapon gets blunt
+						a.takeDamage(energyForAttackWithWeapon); // actor uses energy to attack
+					}
+
 				}
 				else {//an attack with a none weapon
 					if (targetIsActor) {
@@ -132,7 +147,7 @@ public class Attack extends SWAffordance implements SWActionInterface {
 			}
 			else { // attack with bare hands
 				if(a instanceof TuskenRaider){
-					target.takeDamage((a.getHitpoints()/10) + 2); // a bare-handed attack doesn't do much damage.
+					target.takeDamage((a.getHitpoints()/10) + 2); // Tuskens do double damage bare handed
 				}else{
 					target.takeDamage((a.getHitpoints()/20) + 1); // a bare-handed attack doesn't do much damage.
 				}
