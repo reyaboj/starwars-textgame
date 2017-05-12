@@ -3,6 +3,7 @@ package starwars.entities;
 import edu.monash.fit2099.simulator.userInterface.MessageRenderer;
 import starwars.Capability;
 import starwars.SWEntity;
+import starwars.actions.Drink;
 import starwars.actions.Fill;
 
 /**
@@ -18,7 +19,7 @@ import starwars.actions.Fill;
  * @author Robert Merkel
  * 
  */
-public class Canteen extends SWEntity implements Fillable {
+public class Canteen extends SWEntity implements Fillable, Drinkable {
 
 	private int capacity;
 	private int level;
@@ -32,6 +33,7 @@ public class Canteen extends SWEntity implements Fillable {
 		this.level= initialLevel;
 		capabilities.add(Capability.FILLABLE);
 		this.addAffordance(new Fill(this, m));
+		this.addAffordance(new Drink(this, m));
 	}
 
 	public void fill() {
@@ -46,5 +48,13 @@ public class Canteen extends SWEntity implements Fillable {
 	@Override
 	public String getLongDescription () {
 		return longDescription + " [" + level + "/" + capacity + "]";
+	}
+
+	public void drink() {
+		level -= 1;
+	}
+
+	public boolean isEmpty() {
+		return level <= 0;
 	}
 }

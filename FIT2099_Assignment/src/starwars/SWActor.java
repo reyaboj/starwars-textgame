@@ -137,7 +137,10 @@ public abstract class SWActor extends Actor<SWActionInterface> implements SWEnti
 	 */
 	public void setHitpoints(int newHitpoints) {
 		assert newHitpoints >=0 : "Cannot have negative hitpoints";
-		hitpoints = newHitpoints;
+		if (newHitpoints >= getMaxHitpoints())
+			hitpoints = getMaxHitpoints();
+		else
+			hitpoints = newHitpoints;
 	}
 
 	/**
