@@ -240,7 +240,19 @@ public class SWWorld extends World {
 		jim.setSymbol("J");
 		loc = myGrid.getLocationByCoordinates(4,2);
 		entityManager.setLocation(jim, loc);
-		
+
+		// add Uncle Owen and Aunt Beru
+		SWHuman owen = new SWHuman(Team.NEUTRAL, 9999, iface, this);
+		SWHuman beru = new SWHuman(Team.NEUTRAL, 9999, iface, this);
+		owen.setShortDescription("Uncle Owen");
+		beru.setShortDescription("Aunt Beru");
+		owen.setLongDescription("Uncle Owen");
+		beru.setLongDescription("Aunt Beru");
+		owen.setSymbol("U");
+		beru.setSymbol("A");
+		loc = myGrid.getLocationByCoordinates(8, 1);
+		entityManager.setLocation(owen, loc);
+		entityManager.setLocation(beru, loc);
 	}
 
 	/*
