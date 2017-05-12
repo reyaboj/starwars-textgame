@@ -185,6 +185,13 @@ public class SWWorld extends World {
 		entityManager.setLocation(canteen, loc);
 		canteen.addAffordance(new Take(canteen, iface));
 
+		loc = myGrid.getLocationByCoordinates(4, 6);
+		SWEntity benCanteen = new Canteen(iface, 10, 10);
+		benCanteen.setSymbol("o");
+		benCanteen.setHitpoints(500);
+		entityManager.setLocation(benCanteen, loc);
+		benCanteen.addAffordance(new Take(benCanteen, iface));
+
 		// an oil can treasure
 		loc = myGrid.getLocationByCoordinates(1,5);
 		SWEntity oilcan = new SWEntity(iface);
