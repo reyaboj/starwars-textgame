@@ -5,10 +5,7 @@ import edu.monash.fit2099.simulator.matter.EntityManager;
 import edu.monash.fit2099.simulator.space.Direction;
 import edu.monash.fit2099.simulator.userInterface.MessageRenderer;
 import starwars.*;
-import starwars.actions.Disassemble;
-import starwars.actions.Move;
-import starwars.actions.Repair;
-import starwars.actions.Take;
+import starwars.actions.*;
 import starwars.entities.DroidParts;
 import starwars.entities.actors.behaviors.Patrol;
 
@@ -26,7 +23,8 @@ public class R2D2 extends Droid {
     /**Possible droid states*/
     private enum R2State {
         PATROL,
-        PICK_DISASSEMBLED
+        PICK_DISASSEMBLED,
+        HEAL_SELF
     }
 
     /**Current state*/
@@ -67,6 +65,13 @@ public class R2D2 extends Droid {
         List<SWEntityInterface> entities = em.contents(em.whereIs(this));
 
         switch (state) {
+            case HEAL_SELF:
+                if (getHitpoints() < getMaxHitpoints())
+                    scheduler.schedule(new SelfHeal(20, "R2D2 oils itself", messageRenderer), this, 1);
+                else
+                    state = R2State.PATROL;
+                break;
+
             case PICK_DISASSEMBLED:
                 Optional<SWEntityInterface> part = entities.stream()
                         .filter(e -> e instanceof DroidParts).findFirst();
@@ -79,6 +84,27 @@ public class R2D2 extends Droid {
                 break;
 
             case PATROL:
+                // check if I am damaged
+                if (getHitpoints() < getMaxHitpoints()) {
+                    state = R2State.HEAL_SELF;
+                    scheduler.schedule(new SelfHeal(20, "R2D2 oils itself", messageRenderer)
+                            , this, 1);
+                    break;
+                }
+
+                // check if some other droid is damaged near me
+                Optional<SWEntityInterface> damagedDroid = entities.stream()
+                        .filter(e -> e instanceof Droid
+                                && !((Droid) e).isDead()
+                                && e.getHitpoints() < ((Droid) e).getMaxHitpoints())
+                        .findFirst();
+
+                // if damaged, oil it
+                if (damagedDroid.isPresent()) {
+                    scheduler.schedule(new OilDroid(damagedDroid.get(), messageRenderer), this, 1);
+                    break;
+                }
+
                 // look for disabled droids
                 Optional<SWEntityInterface> disabledDroid = entities.stream()
                         .filter(e -> e instanceof Droid && ((Droid)e).isDead()).findFirst();

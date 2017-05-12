@@ -7,10 +7,7 @@ import edu.monash.fit2099.simulator.space.Location;
 import edu.monash.fit2099.simulator.space.World;
 import edu.monash.fit2099.simulator.userInterface.MessageRenderer;
 import starwars.actions.Take;
-import starwars.entities.Blaster;
-import starwars.entities.Canteen;
-import starwars.entities.LightSaber;
-import starwars.entities.Reservoir;
+import starwars.entities.*;
 import starwars.entities.actors.*;
 
 /**
@@ -150,6 +147,14 @@ public class SWWorld extends World {
 		R2D2 r2d2 = new R2D2(null, Team.NEUTRAL, 200, iface, this);
 		r2d2.setSymbol("R2");
 		entityManager.setLocation(r2d2, myGrid.getLocationByCoordinates(0, 7));
+
+		// Damaged droid
+		Droid d4 = new Droid(null, Team.NEUTRAL, 100, iface, this);
+		d4.setSymbol("D4");
+		d4.setHitpoints(50);
+		d4.setShortDescription("D4");
+		d4.setLongDescription("D4");
+		entityManager.setLocation(d4, myGrid.getLocationByCoordinates(1, 7));
 		
 		// Beggar's Canyon 
 		for (int col = 3; col < 8; col++) {
@@ -194,7 +199,7 @@ public class SWWorld extends World {
 
 		// an oil can treasure
 		loc = myGrid.getLocationByCoordinates(1,5);
-		SWEntity oilcan = new SWEntity(iface);
+		OilCan oilcan = new OilCan(iface);
 		oilcan.setShortDescription("an oil can");
 		oilcan.setLongDescription("an oil can, which would theoretically be useful for fixing robots");
 		oilcan.setSymbol("x");
@@ -228,14 +233,14 @@ public class SWWorld extends World {
 		entityManager.setLocation(kim, loc);
 
 		
-		TuskenRaider rim = new TuskenRaider(10, "rim", iface, this);
+		TuskenRaider rim = new TuskenRaider(10, "Rim", iface, this);
 		
 		rim.setSymbol("R");
 		loc = myGrid.getLocationByCoordinates(4,1);
 		entityManager.setLocation(rim, loc);
 		
 		
-		TuskenRaider jim = new TuskenRaider(10, "jim", iface, this);
+		TuskenRaider jim = new TuskenRaider(10, "Jim", iface, this);
 		
 		jim.setSymbol("J");
 		loc = myGrid.getLocationByCoordinates(4,2);
