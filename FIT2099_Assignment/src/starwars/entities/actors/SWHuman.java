@@ -17,7 +17,7 @@ import java.util.Optional;
  */
 public class SWHuman extends SWActor {
     public SWHuman(Team team, int hitpoints, MessageRenderer m, SWWorld world) {
-        super(team, hitpoints, m, world);
+        super(Force.NONE, team, hitpoints, m, world);
         Optional<Affordance> attackAff = Arrays.stream(this.getAffordances())
                 .filter(a -> a instanceof Attack).findFirst();
         if (attackAff.isPresent())

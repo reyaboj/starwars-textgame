@@ -16,15 +16,18 @@
 package starwars;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 import edu.monash.fit2099.gridworld.Grid.CompassBearing;
 import edu.monash.fit2099.simulator.matter.Actor;
 import edu.monash.fit2099.simulator.matter.Affordance;
+import edu.monash.fit2099.simulator.space.Direction;
 import edu.monash.fit2099.simulator.space.Location;
 import edu.monash.fit2099.simulator.time.Scheduler;
 import edu.monash.fit2099.simulator.userInterface.MessageRenderer;
 import starwars.actions.Attack;
+import starwars.actions.Control;
 import starwars.actions.Move;
 
 public abstract class SWActor extends Actor<SWActionInterface> implements SWEntityInterface {
@@ -95,11 +98,16 @@ public abstract class SWActor extends Actor<SWActionInterface> implements SWEnti
 		this.MAX_HITPOINTS = hitpoints;
 		this.world = world;
 		this.symbol = "@";
-		this.forceLevel = Force.NONE;
 		
 		//SWActors are given the Attack affordance hence they can be attacked
 		SWAffordance attack = new Attack(this, m);
 		this.addAffordance(attack);
+		setForceLevel(Force.WEAK);
+	}
+
+	public SWActor(Force force, Team team, int hitpoints, MessageRenderer m, SWWorld w) {
+		this(team, hitpoints, m, w);
+		setForceLevel(force);
 	}
 	
 	/**
@@ -164,9 +172,16 @@ public abstract class SWActor extends Actor<SWActionInterface> implements SWEnti
 
 	/**
 	 * Set the actor's force level.
+	 *
+	 * ASSUMES THAT IT IS ONLY CALLED ONCE DURING THE LIFETIME OF THIS INSTANCE.
 	 * */
 	public void setForceLevel(Force forceLevel) {
 		this.forceLevel = forceLevel;
+		if (forceLevel == Force.NONE) {
+			for (Direction d : CompassBearing.values()) {
+				this.addAffordance(new Control(this, d, messageRenderer, world));
+			}
+		}
 	}
 
 	/**
