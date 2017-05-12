@@ -23,7 +23,9 @@ public class Drink extends SWAffordance {
     }
 
     public boolean canDo(SWActor a) {
-        return a.getHitpoints() < a.getMaxHitpoints() && !((Drinkable)target).isEmpty();
+        return a.getHitpoints() < a.getMaxHitpoints()
+                && !((Drinkable)target).isEmpty()
+                && a.getItemCarried() == target;
     }
 
     /**
@@ -33,6 +35,7 @@ public class Drink extends SWAffordance {
     public void act(SWActor a) {
         a.setHitpoints(a.getHitpoints() + 20);
         ((Drinkable)target).drink();
+        a.say(a.getShortDescription() + " is drinking to restore health");
     }
 
     /**

@@ -107,6 +107,7 @@ public class SWWorld extends World {
 		
 		BenKenobi ben = BenKenobi.getBenKenobi(iface, this, patrolmoves);
 		ben.setSymbol("B");
+		ben.takeDamage(40);
 		loc = myGrid.getLocationByCoordinates(4,  5);
 		entityManager.setLocation(ben, loc);
 		
@@ -190,7 +191,7 @@ public class SWWorld extends World {
 		entityManager.setLocation(canteen, loc);
 		canteen.addAffordance(new Take(canteen, iface));
 
-		loc = myGrid.getLocationByCoordinates(4, 6);
+		loc = myGrid.getLocationByCoordinates(4, 5);
 		SWEntity benCanteen = new Canteen(iface, 10, 10);
 		benCanteen.setSymbol("o");
 		benCanteen.setHitpoints(500);

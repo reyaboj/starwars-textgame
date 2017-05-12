@@ -1,15 +1,11 @@
 package starwars.entities.actors;
 
 
-import java.util.List;
-
 import edu.monash.fit2099.simulator.userInterface.MessageRenderer;
-import starwars.SWActor;
-import starwars.SWEntityInterface;
-import starwars.SWLocation;
-import starwars.SWWorld;
-import starwars.Team;
+import starwars.*;
 import starwars.swinterfaces.SWGridController;
+
+import java.util.List;
 
 /**
  * A very minimal <code>SWActor</code> that the user can control.  Its <code>act()</code> method
@@ -41,7 +37,7 @@ public class Player extends SWActor {
 	 * 
 	 */
 	public Player(Team team, int hitpoints, MessageRenderer m, SWWorld world) {
-		super(team, hitpoints, m, world);
+		super(Force.UNTRAINED, team, hitpoints, m, world);
 		humanControlled = true; // this feels like a hack. Surely this should be dynamic
 	}
 	
