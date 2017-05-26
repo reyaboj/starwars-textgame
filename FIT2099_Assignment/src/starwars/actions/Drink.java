@@ -22,6 +22,12 @@ public class Drink extends SWAffordance {
         assert target instanceof Drinkable;
     }
 
+    /**
+     * Can only drink from an item that's being carried, that isn't empty, and the actor isn't at max health.
+     *
+     * @param 	a the <code>SWActor</code> being queried
+     * @return whether the actor can drink from target
+     */
     public boolean canDo(SWActor a) {
         return a.getHitpoints() < a.getMaxHitpoints()
                 && !((Drinkable)target).isEmpty()
