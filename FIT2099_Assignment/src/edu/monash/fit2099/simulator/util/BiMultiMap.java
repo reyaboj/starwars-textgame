@@ -7,8 +7,10 @@ package edu.monash.fit2099.simulator.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -126,7 +128,7 @@ public class BiMultiMap<K,V> implements Map<K,V> {
 	 * @see Map.entrySet()
 	 */
 	public Set<java.util.Map.Entry<K, V>> entrySet() {
-		return kToV.entrySet();
+		return new HashSet<Entry<K, V>>(kToV.entrySet());
 	}
 
 	@Override
@@ -150,7 +152,7 @@ public class BiMultiMap<K,V> implements Map<K,V> {
 	 * @see Map.keySet()
 	 */
 	public Set<K> keySet() {
-		return kToV.keySet();
+		return new HashSet<K>(kToV.keySet());
 	}
 
 	@Override
@@ -186,7 +188,7 @@ public class BiMultiMap<K,V> implements Map<K,V> {
 	 * @see Map.values()
 	 */
 	public Collection<V> values() {
-		return vToK.keySet();
+		return new HashSet<V>(vToK.keySet());
 	}
 
 	@Override
