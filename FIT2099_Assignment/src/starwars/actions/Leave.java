@@ -32,7 +32,7 @@ public class Leave extends SWAffordance {
 	 * @return true
 	 */
 	public boolean canDo(SWActor a) {
-		return a.getItemCarried().equals(target);
+		return a.getItemCarried() == target;
 	}
 
 	@Override

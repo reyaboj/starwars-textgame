@@ -9,6 +9,7 @@ import starwars.entities.Canteen;
 import starwars.entities.LightSaber;
 import starwars.entities.actors.behaviors.AttackInformation;
 import starwars.entities.actors.behaviors.AttackNeighbours;
+import starwars.entities.actors.behaviors.ItemLeaveTake;
 import starwars.entities.actors.behaviors.Patrol;
 
 import java.util.List;
@@ -48,6 +49,8 @@ public class BenKenobi extends SWLegend {
 		this.setLongDescription("Ben Kenobi, an old man who has perhaps seen too much");
 		LightSaber bensweapon = new LightSaber(m);
 		setItemCarried(bensweapon);
+
+		// ben can train
 		setForceLevel(Force.TRAINED);
 		addAffordance(new TrainForce(this, messageRenderer));
 	}
@@ -87,8 +90,8 @@ public class BenKenobi extends SWLegend {
 					state = ActorState.DRINK_TAKE;
 					holdingCanteen = (Canteen) canteen.get();
 					droppedItem = getItemCarried();
-					if (getItemCarried() != null) {
-						scheduler.schedule(new Leave(getItemCarried(), messageRenderer), this, 1);
+					if (droppedItem != null) {
+						scheduler.schedule(new Leave(droppedItem, messageRenderer), this, 1);
 					}
 					break;
 				}
@@ -106,27 +109,32 @@ public class BenKenobi extends SWLegend {
 					scheduler.schedule(benMove, this, 1);
 				}
 				break;
+
 			case DRINK_TAKE:
-				scheduler.schedule(new Take(holdingCanteen, messageRenderer), this, 1);
+				scheduler.schedule(ItemLeaveTake.getTake(holdingCanteen).get(), this, 1);
 				state = ActorState.DRINK_LOOP;
 				break;
+
 			case DRINK_LOOP:
 				// dump drink if full or canteen is empty
 				if (getHitpoints() == getMaxHitpoints() || holdingCanteen.isEmpty()) {
 					state = ActorState.DRINK_DROP;
-					scheduler.schedule(new Leave(getItemCarried(), messageRenderer), this, 1);
+					scheduler.schedule(ItemLeaveTake.getLeave(getItemCarried()).get(), this, 1);
 					holdingCanteen = null;
 					break;
 				}
+
 				// keep drinking
 				scheduler.schedule(new Drink(holdingCanteen, messageRenderer), this, 1);
 				break;
+
 			case DRINK_DROP:
 				// pick up dropped item and resume patrolling
-				scheduler.schedule(new Take(droppedItem, messageRenderer), this, 1);
+				scheduler.schedule(ItemLeaveTake.getTake(droppedItem).get(), this, 1);
 				state = ActorState.PATROL_AND_ATTACK;
 				droppedItem = null;
 				break;
+
 			case TRAIN:
 				state = ActorState.PATROL_AND_ATTACK;
 				break;
