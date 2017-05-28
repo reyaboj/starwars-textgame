@@ -22,23 +22,21 @@ import starwars.actions.Move;
  *
  */
 public class PrincessLeia extends SWActor {
+	private SWEntityInterface following;
+
 	/**
 	 * Health/Hitpoints of the Actor
 	 */
 	public static final int HEALTH = 500;
 	
 	/**
-	 * 
-	 * @param force She has enough force to resist mind control
-	 * @param team	She's on team Good
-	 * @param hitpoints	Starts of with 500 HEALTH/Hitpoints
-	 * @param m
-	 * @param w
+	 * Create princess leia.
+	 * @param m message renderer
+	 * @param w the world
 	 */
 	public PrincessLeia(MessageRenderer m, SWWorld w) {
 		super(Force.UNTRAINED, Team.GOOD, HEALTH, m, w);
 		setSymbol("P");
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -47,7 +45,6 @@ public class PrincessLeia extends SWActor {
 	 */
 	@Override
 	public void act() {
-		// TODO Auto-generated method stub
         if (isDead()) {
         	say("Princess leia is dead");
         	return;
@@ -65,8 +62,6 @@ public class PrincessLeia extends SWActor {
      * @return move the same direction as Luke
      */
     private ActionInterface follow() {
-       
-
         Direction moveDirection = null;  // to store which direction to move
         EntityManager<SWEntityInterface, SWLocation> em = world.getEntityManager();
         SWLocation loc = em.whereIs(this);
@@ -77,13 +72,11 @@ public class PrincessLeia extends SWActor {
 
             Location neighbor = loc.getNeighbour(d);
             List<SWEntityInterface> neighborObjs = world.getEntityManager().contents((SWLocation)neighbor);
-
-            if (neighborObjs == null)
-            	continue;
             
             for (SWEntityInterface entity : neighborObjs) {  // check all entities at that location for owner
                 if (entity instanceof Player) {
                     moveDirection = d;
+                    following = entity;
                     found = true;
                 }
             }
@@ -120,6 +113,10 @@ public class PrincessLeia extends SWActor {
 	private String describeLocation() {
 		SWLocation location = this.world.getEntityManager().whereIs(this);
 		return this.getShortDescription() + " [" + this.getHitpoints() + "] is at " + location.getShortDescription();
+	}
 
+	@Override
+	public SWEntityInterface getFollowed() {
+		return following;
 	}
 }
