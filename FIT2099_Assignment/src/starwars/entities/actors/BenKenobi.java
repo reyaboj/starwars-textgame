@@ -140,5 +140,4 @@ public class BenKenobi extends SWLegend {
 				break;
 		}
 	}
-
 }

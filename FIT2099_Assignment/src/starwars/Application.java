@@ -36,10 +36,5 @@ public class Application {
 			uiController.render();
 			theScheduler.tick();
 		}
-		
-		
 	}
-	
-	
-
 }
