@@ -2,6 +2,8 @@ package starwars;
 
 import edu.monash.fit2099.simulator.matter.EntityInterface;
 
+import java.util.ArrayList;
+
 /**
  * All <code>Entities</code> and <code>Actors</code> in the starwars client package should implement this interface.
  * 
@@ -65,4 +67,12 @@ public interface SWEntityInterface extends EntityInterface {
 	 */
 	public void takeDamage(int damage);
 
+	/**
+	 * Get the entity that this entity is following.
+	 *
+	 * @return
+	 */
+	public default SWEntityInterface getFollowed() {
+		return null;
+	}
 }
