@@ -34,19 +34,15 @@ public class DarthVader extends SWActor{
 	public static final int HEALTH = 10000;
 
 	/**
-	 * 
-	 * @param force TRAINED. He has the capability to mind control other Actors
-	 * @param team EVIL
-	 * @param hitpoints 10000
+	 * Create Darth Vader.
 	 * @param m
 	 * @param w
 	 */
 	public DarthVader(MessageRenderer m, SWWorld w) {
 		super(Force.TRAINED, Team.EVIL, HEALTH, m, w);
-		// TODO Auto-generated constructor stub
 		LightSaber dvWeapon = new LightSaber(m);
 		setItemCarried(dvWeapon);
-		setSymbol("DV");
+		setSymbol("V");
 	}
 	
 	/**
@@ -54,7 +50,6 @@ public class DarthVader extends SWActor{
 	 */
 	@Override
 	public void act() {
-
 		// get entities at position
 		EntityManager<SWEntityInterface, SWLocation> em = world.getEntityManager();
 		List<SWEntityInterface> entities = em.contents(em.whereIs(this));
@@ -65,7 +60,7 @@ public class DarthVader extends SWActor{
 		
 		// check for any Actor's existence who is not luke
 		Optional<SWEntityInterface> actor = entities.stream()
-				.filter(e -> e instanceof SWActor && !(e instanceof Player)).findFirst();
+				.filter(e -> e instanceof SWActor && !(e instanceof Player) && e != this).findFirst();
 
 		if (luke.isPresent()) {
 			
