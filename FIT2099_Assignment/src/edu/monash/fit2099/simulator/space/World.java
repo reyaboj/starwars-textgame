@@ -1,5 +1,9 @@
 package edu.monash.fit2099.simulator.space;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
+import java.util.function.Function;
 
 import edu.monash.fit2099.simulator.matter.EntityInterface;
 import edu.monash.fit2099.simulator.matter.EntityManager;
@@ -51,7 +55,33 @@ public abstract class World extends Observable {
 	 */
 	@SuppressWarnings("rawtypes")		// space will contain instances of a Location subtype specified in client code
 	protected LocationContainer space;	// instantiate in subclass constructor
-	
+
+	/**
+	 * Game conditions enum.
+	 */
+	public enum GameState {
+		WIN,
+		LOSE,
+		CONTINUE
+	}
+
+	/**
+	 * Current game state.
+	 */
+	private GameState gameState = GameState.CONTINUE;
+
+	/**
+	 * Map a game state to the possible predicates that must be satisfied (at least one) prior to changing to that state.
+	 */
+	private Map<GameState, ArrayList<Function<World,Boolean>>> tests = new HashMap<>();
+
+	/**
+	 * Initialize the world.
+	 */
+	public World() {
+		for (GameState s : GameState.values())
+			tests.put(s, new ArrayList<>());
+	}
 	
 	/**
 	 * Part of the Observer pattern.
@@ -86,5 +116,36 @@ public abstract class World extends Observable {
 	 */
 	public void tick() {
 		getEntityManager().tick();
+		updateGameState();
+	}
+
+	/**
+	 * Get the current state of the game: whether to continue or terminate due to victory/loss.
+	 * @return the game state
+	 */
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	/**
+	 * Add a test such that the game's internal state will be updated to the given state when test succeeds.
+	 *
+	 * @param nextState the state to update to
+	 * @param test the test that is done before updating
+	 */
+	public void addCondition(GameState nextState, Function<World, Boolean> test) {
+		tests.get(nextState).add(test);
+	}
+
+	/**
+	 * Update the game state based on the conditions.
+	 */
+	private void updateGameState() {
+		for (GameState s : GameState.values()) {
+			if (tests.get(s).stream().filter(test -> test.apply(this)).findFirst().isPresent()) {
+				gameState = s;
+				return;
+			}
+		}
 	}
 }

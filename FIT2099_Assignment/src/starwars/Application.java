@@ -1,5 +1,6 @@
 package starwars;
 
+import edu.monash.fit2099.simulator.space.World;
 import edu.monash.fit2099.simulator.time.Scheduler;
 import starwars.swinterfaces.SWGridController;
 
@@ -31,9 +32,37 @@ public class Application {
 		world.initializeWorld(uiController);
 	
 		// kick off the scheduler
-		while(true) {
+		while(world.getGameState() == World.GameState.CONTINUE) {
 			uiController.render();
 			theScheduler.tick();
+		}
+
+		String[] victoryMsg = {
+				"____    ____  __    ______ .___________.  ______   .______     ____    ____ \n" +
+						"\\   \\  /   / |  |  /      ||           | /  __  \\  |   _  \\    \\   \\  /   / \n" +
+						" \\   \\/   /  |  | |  ,----'`---|  |----`|  |  |  | |  |_)  |    \\   \\/   /  \n" +
+						"  \\      /   |  | |  |         |  |     |  |  |  | |      /      \\_    _/   \n" +
+						"   \\    /    |  | |  `----.    |  |     |  `--'  | |  |\\  \\----.   |  |     \n" +
+						"    \\__/     |__|  \\______|    |__|      \\______/  | _| `._____|   |__|     \n" +
+						"                                                                            "
+		};
+
+		String[] lossMsg = {
+				" _______   _______  _______  _______     ___   .___________. _______  _______  \n" +
+						"|       \\ |   ____||   ____||   ____|   /   \\  |           ||   ____||       \\ \n" +
+						"|  .--.  ||  |__   |  |__   |  |__     /  ^  \\ `---|  |----`|  |__   |  .--.  |\n" +
+						"|  |  |  ||   __|  |   __|  |   __|   /  /_\\  \\    |  |     |   __|  |  |  |  |\n" +
+						"|  '--'  ||  |____ |  |     |  |____ /  _____  \\   |  |     |  |____ |  '--'  |\n" +
+						"|_______/ |_______||__|     |_______/__/     \\__\\  |__|     |_______||_______/ \n" +
+						"                                                                               "
+		};
+
+		if (world.getGameState() == World.GameState.WIN){
+			for (String line : victoryMsg)
+				uiController.render(line);
+		} else {
+			for (String line : lossMsg)
+				uiController.render(line);
 		}
 	}
 }
