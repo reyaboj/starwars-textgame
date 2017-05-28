@@ -19,7 +19,6 @@ import starwars.swinterfaces.SWGridController;
 
 public class Application {
 	public static void main(String args[]) {
-		
 		SWWorld world = new SWWorld();
 		
 		//Grid controller controls the data and commands between the UI and the model

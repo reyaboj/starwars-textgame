@@ -27,9 +27,8 @@ import starwars.SWWorld;
  * 2017-02-19	: Show banner method added. I used a boolean attribute to show the banner only once with the map render. (asel)
  */
 public class SWGridTextInterface implements GridRenderer {
-	
-	/**The grid of the world*/
-	private static SWGrid grid;
+	/**The world*/
+	private static SWWorld world;
 	
 	/**If or not to show the banner*/
 	private static boolean showBanner;
@@ -40,11 +39,11 @@ public class SWGridTextInterface implements GridRenderer {
 	 * Constructor for the <code>SWGridTextInterface</code>. Will set showBanner flag to true to
 	 * show the text banner with the first map render.
 	 * 
-	 * @param 	grid the grid of the world
-	 * @pre 	grid should not be null 
+	 * @param 	world the world
+	 * @pre 	world should not be null
 	 */
-	public SWGridTextInterface(SWGrid grid) {
-		SWGridTextInterface.grid = grid;
+	public SWGridTextInterface(SWWorld world) {
+		SWGridTextInterface.world = world;
 		instream = new Scanner(System.in);
 		//set the show banner to true so that the banner would be displayed on the first map render
 		showBanner = true;
@@ -64,7 +63,6 @@ public class SWGridTextInterface implements GridRenderer {
 	 * @post	all strings returned are of a fixed size
 	 */
 	private String getLocationString(SWLocation loc) {
-		
 		final EntityManager<SWEntityInterface, SWLocation> em = SWWorld.getEntitymanager();
 		
 		//all string would be of locationWidth length
@@ -145,7 +143,8 @@ public class SWGridTextInterface implements GridRenderer {
 		if (showBanner) {
 			showBanner();
 		}
-				
+
+		SWGrid grid = world.getCurrentGrid();
 		String buffer = "\n";
 		final int gridHeight = grid.getHeight();
 		final int gridWidth  = grid.getWidth();

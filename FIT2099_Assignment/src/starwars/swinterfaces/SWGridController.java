@@ -7,7 +7,6 @@ import edu.monash.fit2099.gridworld.GridRenderer;
 import edu.monash.fit2099.simulator.matter.ActionInterface;
 import starwars.SWActionInterface;
 import starwars.SWActor;
-import starwars.SWGrid;
 import starwars.SWWorld;
 
 /**
@@ -25,10 +24,7 @@ public class SWGridController implements GridController {
 	 * implementations of the <code>GridRenderer</code> interface
 	 * 
 	 * @see {@link edu.monash.fit2099.gridworld.GridRenderer}*/
-	private static GridRenderer ui; 
-	
-	/**SWgrid of the world*/
-	private SWGrid grid;
+	private static GridRenderer ui;
 	
 	/**
 	 * Constructor of this <code>SWGridController</code>
@@ -41,10 +37,8 @@ public class SWGridController implements GridController {
 	 * @pre 	the world should not be null
 	 */
 	public SWGridController(SWWorld world) {
-		this.grid = world.getGrid();
-		
 		//change the user interface to be used here in the constructor
-		SWGridController.ui = new SWGridTextInterface(this.grid); //use a Text Interface to interact
+		SWGridController.ui = new SWGridTextInterface(world); //use a Text Interface to interact
 		//this.ui = new SWGridBasicGUI(this.grid); //Use a Basic GUI to interact
 		//this.ui = new SWGridGUI(this.grid); //Use a GUI with better graphics to interact
 	}

@@ -10,6 +10,9 @@ import starwars.actions.Take;
 import starwars.entities.*;
 import starwars.entities.actors.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Class representing a world in the Star Wars universe. 
  * 
@@ -22,24 +25,39 @@ import starwars.entities.actors.*;
  * 				than by the Grid or MiddleWorld classes (asel)
  */
 public class SWWorld extends World {
-	
 	/**
-	 * <code>SWGrid</code> of this <code>SWWorld</code>
+	 * Maps for this world.
 	 */
-	private SWGrid myGrid;
+	private Map<SWMap, SWGrid> maps;
+
+	/**
+	 * Current map.
+	 */
+	private SWMap currentMap;
 	
 	/**The entity manager of the world which keeps track of <code>SWEntities</code> and their <code>SWLocation</code>s*/
 	private static final EntityManager<SWEntityInterface, SWLocation> entityManager = new EntityManager<SWEntityInterface, SWLocation>();
-	
+
+	public enum SWMap {
+		START,
+		YAVIN_IV,
+		DEATH_STAR
+	}
+
 	/**
 	 * Constructor of <code>SWWorld</code>. This will initialize the <code>SWLocationMaker</code>
 	 * and the grid.
 	 */
 	public SWWorld() {
 		SWLocation.SWLocationMaker factory = SWLocation.getMaker();
-		myGrid = new SWGrid(factory);
-		space = myGrid;
-		
+
+		maps = new HashMap<>();
+		maps.put(SWMap.START, new SWGrid(factory));
+		maps.put(SWMap.YAVIN_IV, new SWGrid(2, 2, factory));
+		maps.put(SWMap.DEATH_STAR, new SWGrid(factory));
+		currentMap = SWMap.START;
+
+		space = maps.get(SWMap.START);
 	}
 
 	/** 
@@ -71,6 +89,7 @@ public class SWWorld extends World {
 	 */
 	public void initializeWorld(MessageRenderer iface) {
 		SWLocation loc;
+		SWGrid myGrid = maps.get(SWMap.START);
 		// Set default location string
 		for (int row=0; row < height(); row++) {
 			for (int col=0; col < width(); col++) {
@@ -280,13 +299,29 @@ public class SWWorld extends World {
 	}
 	
 	/**
-	 * Accessor for the grid.
+	 * Accessor for the current grid.
 	 * 
 	 * @author ram
 	 * @return the grid
 	 */
-	public SWGrid getGrid() {
-		return myGrid;
+	public SWGrid getCurrentGrid() {
+		return maps.get(getCurrentMap());
+	}
+
+	/**
+	 * Set the current map of the world.
+	 * @param m
+	 */
+	public void setCurrentMap(SWMap m) {
+		this.currentMap = m;
+		space = maps.get(m);
+	}
+
+	/**
+	 * Get the current map of the world.
+	 */
+	public SWMap getCurrentMap() {
+		return this.currentMap;
 	}
 
 	/**
