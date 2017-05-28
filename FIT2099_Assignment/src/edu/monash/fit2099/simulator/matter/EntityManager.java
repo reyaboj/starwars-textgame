@@ -76,8 +76,10 @@ public class EntityManager<E extends EntityInterface, L extends Location> {
 	 * @return 	list of all <code>Entities</code> in <code>loc</code> or an empty list
 	 */
 	public List<E> contents(final L loc) {
-		return storage.reverseLookup(loc);
-		
+		List<E> result = storage.reverseLookup(loc);
+		if (result == null)
+			return new ArrayList<E>();
+		return result;
 	}
 	
 	/**
