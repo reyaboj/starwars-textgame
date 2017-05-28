@@ -34,19 +34,17 @@ public class StormTroopers extends SWActor{
 	public static final int HEALTH = 100;
 	
 	/**
-	 * 
-	 * @param team EVIL
-	 * @param hitpoints HEALTH = 100
-	 * @param m
-	 * @param world
+	 * Create StormTrooper.
+	 * @param m message renderer
+	 * @param world the world
 	 * 
 	 * Assigned with a blaster when they're created
 	 */
 	public StormTroopers(MessageRenderer m, SWWorld world) {
 		super(Team.EVIL, HEALTH, m, world);
-		// TODO Auto-generated constructor stub
 		Blaster stormTroopersWeapon = new Blaster(m);
 		setItemCarried(stormTroopersWeapon);
+		setSymbol("S");
 	}
 
 	/**
