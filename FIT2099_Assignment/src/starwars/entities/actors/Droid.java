@@ -95,9 +95,6 @@ public class Droid extends SWActor {
             Location neighbor = loc.getNeighbour(d);
             List<SWEntityInterface> neighborObjs = world.getEntityManager().contents((SWLocation)neighbor);
 
-            if (neighborObjs == null)  // FIXME: ugly hack because engine code is buggy; docs say never returns null
-                continue;
-
             for (SWEntityInterface entity : neighborObjs) {  // check all entities at that location for owner
                 if (entity == owner) {
                     moveDirection = d;
@@ -126,5 +123,10 @@ public class Droid extends SWActor {
         this.owner = owner;
         if (hasOwner())
             setTeam(owner.getTeam());
+    }
+
+    @Override
+    public SWEntityInterface getFollowed() {
+        return getOwner();
     }
 }
