@@ -77,3 +77,44 @@ A single affordance for both `Droid` and regular `SWActor` instances allows us t
 * Replenishes actor/droid health
 * Special condition to prevent oil-can from fully depleting
 
+## Darth Vader
+### Design Description
+`DarthVader` derives from `SWActor` and checks its surroundings at every tick. A `ForceChoke` affordance shall be added to allow Vader to choke nearby actors (regardless of team).
+
+### Design Justification
+An additional affordance for force-choking keeps the design intent clear.
+
+## Princess Leia Organa
+### Design Description
+Princess Leia shall be a subclass of SWActor, `PrincessLeia`. Leia has a force level of `UNTRAINED` and is not vulnerable to mind control. The princess shall remain at the edge of death star until Luke visits her location.
+
+### Design justification
+Simplest possible design.
+
+#### Responsibilities: `PrincessLeia`
+* Represent an instance of Leia
+* Follow Luke if nearby
+
+## StormTroopers
+### Design Description
+A `StormTroopers` class shall be created to represent this actor. Every such instance shall carry a `Blaster` as a weapon. A `Radio` action shall allow a stormtrooper to call for backup, creating another trooper at the same location. They will use the `Attack` affordance to attack other actors.
+
+### Responsibilities: `StormTroopers`
+* Represents a stormtrooper
+* Ignores actors that are on team `EVIL`
+* Radios for backup 5% of the time when no other actors are present
+* Attacks non-evil actors with a miss rate of 75%
+* Moves about randomly if none of the above
+
+### Responsiblities: `Radio`
+* Action for stormtroopers to spawn one more trooper at the same location
+
+
+## Multiple Maps
+Every `SWWorld` shall be modified to contain a collection of map_name -> grid mappings. Every `SWworld` shall have a current grid (with accessors and mutators).
+
+## Interstellar Travel
+A `Falcon` class shall represent millenium falcon spaceships on the maps. `FalconTravel` affordance links a falcon to another. `FalconTravel` sets a new location for the actor, and all entities for which `getFollowed() == actor`, i.e. all entities which are following this actor.
+
+## Winning/Losing Mechanic
+`World` shall maintain a `GameState` enumerated type with possible values: `WIN`, `LOSE`, `CONTINUE`. Every tick, it shall test all predicates contained in a mapping from `GameState` -> predicate. For instance, a mapping of `GameState.WIN` -> (_ -> vader.isDead()) means that when vader dies, the internal state changes to `GameState.WIN`. This internal state shall have an accessor, but no public mutator.
